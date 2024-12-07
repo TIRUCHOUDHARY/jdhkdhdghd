@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>दिन, माह और तिथि का पता लगाएं</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <h1 class="title">✨ दिन, माह और तिथि का पता लगाएं ✨</h1>
+        <div class="input-section">
+            <label for="dateInput">🔍 अपनी तारीख चुनें:</label>
+            <input type="date" id="dateInput">
+            <button id="checkBtn">जांचें</button>
+        </div>
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        // Import Hindu Calendar library (this assumes you have installed hindu-cal via npm)
+// If you're working in a browser, you might need to include a CDN version of such libraries.
+const daysOfWeek = ["रविवार", "सोमवार", "मंगलवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+const hindiMonths = [
+    "चैत्र", "वैशाख", "ज्येष्ठ", "आषाढ़", "श्रावण", "भाद्रपद", 
+    "आश्विन", "कार्तिक", "मार्गशीर्ष", "पौष", "माघ", "फाल्गुन"
+];
+
+document.getElementById("checkBtn").addEventListener("click", () => {
+    const dateInput = document.getElementById("dateInput").value;
+    if (!dateInput) {
+        alert("कृपया एक तारीख चुनें।");
+        return;
+    }
+
+    // Parse the input date
+    const inputDate = new Date(dateInput);
+
+    // Weekday calculation
+    const dayOfWeek = daysOfWeek[inputDate.getDay()];
+
+    // Hindi month (Hindu calendar)
+    const hinduMonthIndex = (inputDate.getMonth() + 9) % 12; // Adjust for Hindu months
+    const hindiMonth = hindiMonths[hinduMonthIndex];
+
+    // Tithi Calculation (Using a dummy tithi for demo purposes, replace with actual library logic)
+    const fakeTithi = "पूर्णिमा"; // Replace with actual tithi calculation logic
+
+    // Display the result
+    document.getElementById("result").innerHTML = `
+        <p>वो दिन: <strong>${dayOfWeek}</strong></p>
+        <p>हिन्दी महीना: <strong>${hindiMonth}</strong></p>
+        <p>तिथि: <strong>${fakeTithi}</strong></p>
+    `;
+});
+// Define Tithis in Hindi
+const tithis = [
+    "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पंचमी", 
+    "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", 
+    "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", 
+    "पूर्णिमा/अमावस्या"
+];
+
+// Function to get Tithi
+function getTithi(dayOfMonth) {
+    // Calculate tithi based on the lunar phase (simplified example)
+    const paksha = dayOfMonth <= 15 ? "शुक्ल पक्ष" : "कृष्ण पक्ष";
+    const tithiIndex = (dayOfMonth - 1) % 15; // Cycle through 1 to 15
+    return `${paksha} - ${tithis[tithiIndex]}`;
+}
+
+// Add Tithi Logic to Event Listener
+document.getElementById("checkBtn").addEventListener("click", () => {
+    const dateInput = document.getElementById("dateInput").value;
+    if (!dateInput) {
+        alert("कृपया एक तारीख चुनें।");
+        return;
+    }
+
+    const inputDate = new Date(dateInput);
+    const dayOfWeek = daysOfWeek[inputDate.getDay()];
+    const hindiMonth = hindiMonths[(inputDate.getMonth() + 9) % 12];
+    const tithi = getTithi(inputDate.getDate());
+
+    document.getElementById("result").innerHTML = `
+        <p>वो दिन: <strong>${dayOfWeek}</strong></p>
+        <p>हिन्दी महीना: <strong>${hindiMonth}</strong></p>
+        <p>तिथि: <strong>${tithi}</strong></p>
+    `;
+});
+
+    </script>
+</body>
+</html>
